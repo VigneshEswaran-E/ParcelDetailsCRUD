@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,10 +14,10 @@ namespace ParcelDetailsCRUD.Controllers
     [ApiController]
     public class ParcelController : ControllerBase
     {
-        ParceldetailsRepository reg = null;
-        public ParcelController()
+        IParceldetailsRepository reg = null;
+        public ParcelController(IParceldetailsRepository Regs)
         {
-            reg = new ParceldetailsRepository();
+            reg = Regs;
         }
         // GET: api/<ParcelController>
         [HttpGet]
@@ -26,7 +27,7 @@ namespace ParcelDetailsCRUD.Controllers
         }
 
         // GET api/<ParcelController>/5
-        [HttpGet("{ParcelId}")]
+        [HttpGet("{ParcelID}")]
         public Parceldetails Get(long ParcelID)
         {
             return reg.ShowParcelbyName(ParcelID);
@@ -40,7 +41,7 @@ namespace ParcelDetailsCRUD.Controllers
         }
 
         // PUT api/<ParcelController>/5
-        [HttpPut("{id}")]
+        [HttpPut("{ id}")]
         public void Put(int id, [FromBody] Parceldetails value)
         {
             reg.UpdateDetails(value);

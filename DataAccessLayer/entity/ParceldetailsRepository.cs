@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.entity
 {
-    public class ParceldetailsRepository
+    public class ParceldetailsRepository:IParceldetailsRepository
     {
-        string connectionString = "server=DESKTOP-1U0BM0H\\SQLEXPRESS;database=Parcel;user Id =sa;password=Anaiyaan@123;";
+        string connectionString = string.Empty;//"server=DESKTOP-1U0BM0H\\SQLEXPRESS;database=Parcel;user Id =sa;password=Anaiyaan@123;";
         SqlConnection con = null;
 
-        public ParceldetailsRepository()
+        public ParceldetailsRepository(IConfiguration configuration)
         {
+            connectionString = configuration.GetConnectionString("DbConnection");
             con = new SqlConnection(connectionString);
         }
 
@@ -87,7 +89,7 @@ namespace DataAccessLayer.entity
         {
             try
             {
-                var SelectbyName = $"exec ShowParcelbyName {ParcelId}";
+                var SelectbyName = $"exec showparcelbyname {ParcelId}";
                 con.Open();
                 Parceldetails result = con.QueryFirstOrDefault<Parceldetails>(SelectbyName);
                 con.Close();
