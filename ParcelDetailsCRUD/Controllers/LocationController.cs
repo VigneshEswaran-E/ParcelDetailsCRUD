@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,10 +37,17 @@ namespace ParcelDetailsCRUD.Controllers
         }
 
         // GET api/<LocationController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{name}")]
+        public IActionResult Get(string name)
         {
-            return "value";
+            try
+            {
+                return Ok(rep.GetLocationByName(name));
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         // POST api/<LocationController>
@@ -57,15 +65,34 @@ namespace ParcelDetailsCRUD.Controllers
         }
 
         // PUT api/<LocationController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Location value)
         {
+            try
+            {
+                rep.UpdateLocation(value);
+                return Ok();
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
+
         }
 
         // DELETE api/<LocationController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(long id)
         {
+            try
+            {
+                rep.DeleteLocation(id);
+                return Ok();
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

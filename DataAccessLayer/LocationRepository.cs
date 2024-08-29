@@ -9,14 +9,7 @@ using DataAccessLayer;
 
 namespace BusinessLayer
 {
-    public interface ILocationRepository
-    {
-         
-        public void InsertLocation(Location loc);
-        public List<Location> GetAllLocation();
-    }
-
-
+   
     public class LocationRepository : ILocationRepository
     {
 
@@ -39,7 +32,7 @@ namespace BusinessLayer
             {
                 throw;
             }
-
+             
         }
 
         public List<Location> GetAllLocation()
@@ -49,7 +42,7 @@ namespace BusinessLayer
                 return dbContext.Location.ToList();
 
             }
-            catch (Exception ex)
+            catch         (Exception ex)
             {
                 throw;
             }
@@ -68,6 +61,31 @@ namespace BusinessLayer
                 throw;
             }
 
+        }
+       public void  UpdateLocation(Location loc)
+        {
+            try
+            {
+                dbContext.Update(loc);
+                dbContext.SaveChanges();
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
+        }
+        public void DeleteLocation(long loc)
+        {
+            try
+            {
+                var count = dbContext.Location.Find(loc);
+                dbContext.Remove(count);
+                dbContext.SaveChanges();
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
